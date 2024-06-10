@@ -7,7 +7,7 @@ public class Principal {           // Falta el Recorrido y ya queda
         int cantidad;
         Grafo grafo = new Grafo();
         System.out.print("\nIndica la cantidad de vértices del grafo: ");
-        cantidad = validarEntero();
+        cantidad = decidir();
 
         for (int i = 0; i < cantidad; i++) {
             grafo.agregarNodo(crearVertice(grafo));
@@ -20,8 +20,8 @@ public class Principal {           // Falta el Recorrido y ya queda
         Scanner entrada = new Scanner(System.in);
         int valorVertice;
         do {
-            System.out.print("Ingresa el valor del vértice (múltiplo de 6): ");
-            valorVertice = validarEntero();
+            System.out.print("\nIngresa el valor del vértice (múltiplo de 6): ");
+            valorVertice = decidir();
             if (!multiploDeSeis(valorVertice)) {
                 System.out.println("El valor ingresado no es múltiplo de 6. Intente nuevamente.");
             }
@@ -29,22 +29,33 @@ public class Principal {           // Falta el Recorrido y ya queda
         return new Vertice(valorVertice); 
     }
 
-    public static int validarEntero() {
+    public static int decidir(){
         int indice = 0;
         boolean excepcion = true;
-        Scanner entrada = new Scanner(System.in);
-
-        do {
-            try {
-                indice = entrada.nextInt();
+        do{
+            try{
+                indice = validarEleccion();
                 excepcion = false;
-            } catch (InputMismatchException e) {
-                System.out.println("----------¡Debe ser un número entero!--------\n");
-                System.out.print("Vuelva a introducir la opción: ");
-                entrada.next();
+            }catch(InputMismatchException e){
+                System.out.println("----------¡Debe ser un numero entero!--------\n");
+                System.out.print("vuelva a introducir la opcion: ");
             }
-        } while (excepcion);
+        }while(excepcion);
         return indice;
+    } 
+
+    public static int validarEleccion() throws InputMismatchException{
+        Scanner entrada = new Scanner(System.in);
+        int eleccion, count=0;
+        do{
+            if(count != 0){
+                System.out.println("-------Debe ser un número mayor a cero------");
+                System.out.print("introduzca su eleccion:");
+            }
+            count++;
+            eleccion = entrada.nextInt();
+        }while(eleccion <= 0);
+        return eleccion;
     }
 
     public static boolean multiploDeSeis(int numero) {
