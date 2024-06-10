@@ -2,62 +2,105 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
 public class Grafo {
     private List<Vertice> listaVertices;
-    public void agregarNodo(Vertice verticeNuevo){
-        if (listaVertices == null) {
-            listaVertices = new ArrayList<>();
-        }
-        listaVertices.add(verticeNuevo);
+
+    public Grafo() {
+        listaVertices = new ArrayList<>();
     }
+
+    public void agregarNodo(Vertice verticeNuevo) {
+        if (!existeVertice(verticeNuevo)) {
+            listaVertices.add(verticeNuevo);
+        } else {
+            System.out.println("El vértice ya existe en el grafo.");
+        }
+    }
+
     public List<Vertice> getListaVertices() {
         return listaVertices;
     }
-    public void agregarAristas(){
+
+    public void agregarAristas() {
         int opcion, peso, count = 0;
         Vertice destino, origen;
         Scanner entrada = new Scanner(System.in);
-        do{
+        do {
             for (int i = 0; i < listaVertices.size(); i++) {
-                System.out.println( i + 1 + ") " + listaVertices.get(i).getDato());
+                System.out.println(i + 1 + ") " + listaVertices.get(i).getDato());
             }
-            do{
+            do {
                 if (count != 0) {
-                    System.out.println("-----debe ser un indice mostrado en el menu-----");
+                    System.out.println("-----Debe ser un índice mostrado en el menú-----");
                 }
-                System.out.print("SELECCIONE EL NUMERO DEL VERTICE ORIGEN: " );
+                System.out.print("SELECCIONE EL NÚMERO DEL VÉRTICE ORIGEN: ");
                 opcion = decidir();
-                count ++;
-            }while(opcion >= listaVertices.size()+1);
+                count++;
+            } while (opcion < 1 || opcion > listaVertices.size());
             count = 0;
-            origen = listaVertices.get( opcion - 1);
-            do{
+            origen = listaVertices.get(opcion - 1);
+            do {
                 if (count != 0) {
-                    System.out.println("-----debe ser un indice mostrado en el menu-----");
+                    System.out.println("-----Debe ser un índice mostrado en el menú-----");
                 }
-                System.out.print("INDIQUE EL NUMERO DEL VERTICE DESTINO: " );
+                System.out.print("INDIQUE EL NÚMERO DEL VÉRTICE DESTINO: ");
                 opcion = decidir();
-                count ++;
-            }while(opcion >= listaVertices.size()+1);
+                count++;
+            } while (opcion < 1 || opcion > listaVertices.size());
             count = 0;
-            destino = listaVertices.get( opcion - 1);
-            do{
+            destino = listaVertices.get(opcion - 1);
+            do {
                 if (count != 0) {
                     System.out.println("-----EL PESO DEBE SER MAYOR A CERO-----");
                 }
                 System.out.print("INDIQUE EL PESO: ");
                 peso = decidir();
                 count++;
-            }while (peso <= 0);
-            origen.setListaAristas(new Arista(origen, destino, peso));
-            System.out.print("agregar mas aristas (1. Si\t 2. No)? ");
+            } while (peso <= 0);
+            if (!origen.equals(destino)) {
+                Arista nuevaArista = new Arista(origen, destino, peso);
+                if (!existeArista(nuevaArista)) {
+                    origen.setListaAristas(nuevaArista);
+                } else {
+                    System.out.println("ERROR: La arista ya existe en el grafo.\n");
+                }
+            } else {
+                System.out.println("ERROR: El origen y destino son el mismo.\n");
+            }
+            System.out.print("Desea agregar otra arista? (1. Sí\t 2. No): ");
             opcion = decidir();
-        }while(opcion == 1);
+        } while (opcion == 1);
     }
+
+    public boolean existeVertice(Vertice vertice) {
+        for (Vertice v : listaVertices) {
+            if (v.equals(vertice)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean existeArista(Arista arista) {
+        for (Vertice v : listaVertices) {
+            if (v.getListaAristas() != null) {
+                for (Arista a : v.getListaAristas()) {
+                    if (a.equals(arista)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+
     @Override
     public String toString (){
         return " GRAFO [ " + getListaVertices() + "\n ]";
     }
+
     public int decidir(){
         int indice = 0;
         boolean excepcion = true;
@@ -66,12 +109,10 @@ public class Grafo {
                 indice = validarEleccion();
                 excepcion = false;
             }catch(InputMismatchException e){
-                System.out.println("----------¡Debe ser un numero entero!--------\\n");
+                System.out.println("----------¡Debe ser un numero entero!--------\n");
                 System.out.print("vuelva a introducir la opcion: ");
             }
-            
         }while(excepcion);
-        
         return indice;
     } 
 
