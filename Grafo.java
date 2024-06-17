@@ -1,12 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.InputMismatchException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Queue;
+import java.util.*;
 public class Grafo {
     private List<Vertice> listaVertices;
 
@@ -127,7 +119,7 @@ public class Grafo {
         return eleccion;
     }
 
-    public void recorrerGrafo(int datoVerticeInicial) {
+    public void recorridoEnProfundidad(int datoVerticeInicial) {
         Stack<Vertice> pila = new Stack<>();
         Set<Vertice> visitados = new HashSet<>();
         Vertice verticeInicial = buscarVertice(datoVerticeInicial);
@@ -153,6 +145,7 @@ public class Grafo {
         }
         System.out.println();
     }
+
     private Vertice buscarVertice(int dato) {
         for (Vertice vertice : listaVertices) {
             if (vertice.getDato()==dato) {
@@ -161,6 +154,7 @@ public class Grafo {
         }
         return null;
     }
+
     public void recorridoEnAnchura() {
         if (listaVertices == null || listaVertices.isEmpty()) {
             System.out.println("El grafo está vacío. No se puede realizar el recorrido en anchura.");

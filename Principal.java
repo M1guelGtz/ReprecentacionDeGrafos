@@ -14,7 +14,7 @@ public class Principal {
         grafo.agregarAristas();
         
         grafo.recorridoEnAnchura();
-        grafo.recorrerGrafo(grafo.getListaVertices().get(0).getDato());
+        grafo.recorridoEnProfundidad(grafo.getListaVertices().get(0).getDato());
         System.out.println(grafo);
     }
     public static Vertice crearVertice(Grafo grafo) {
@@ -23,10 +23,10 @@ public class Principal {
         do {
             System.out.print("\nIngresa el valor del vértice (múltiplo de 6): ");
             valorVertice = decidir();
-            if (!multiploDeSeis(valorVertice, grafo)) {
+            if (!validarMultiploDeSeis(valorVertice, grafo)) {
                 System.out.println("El valor ingresado no es múltiplo de 6. Intente nuevamente.");
             }
-        } while (!multiploDeSeis(valorVertice, grafo));
+        } while (!validarMultiploDeSeis(valorVertice, grafo));
         Vertice nuevo = new Vertice(valorVertice);
         return nuevo;
     }
@@ -60,7 +60,7 @@ public class Principal {
         return eleccion;
     }
 
-    public static boolean multiploDeSeis(int numero, Grafo grafo) {
+    public static boolean validarMultiploDeSeis(int numero, Grafo grafo) {
         return numero % 6 == 0;
     }
 }
