@@ -1,32 +1,31 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Principal {           // Falta el Recorrido y ya queda
+public class Principal {          
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         int cantidad;
-        Grafo grafo = new Grafo();
         System.out.print("\nIndica la cantidad de vértices del grafo: ");
+        Grafo grafo = new Grafo();
         cantidad = decidir();
-
         for (int i = 0; i < cantidad; i++) {
             grafo.agregarNodo(crearVertice(grafo));
         }
         grafo.agregarAristas();
         System.out.println(grafo);
     }
-
     public static Vertice crearVertice(Grafo grafo) {
         Scanner entrada = new Scanner(System.in);
         int valorVertice;
         do {
             System.out.print("\nIngresa el valor del vértice (múltiplo de 6): ");
             valorVertice = decidir();
-            if (!multiploDeSeis(valorVertice)) {
+            if (!multiploDeSeis(valorVertice, grafo)) {
                 System.out.println("El valor ingresado no es múltiplo de 6. Intente nuevamente.");
             }
-        } while (!multiploDeSeis(valorVertice));
-        return new Vertice(valorVertice); 
+        } while (!multiploDeSeis(valorVertice, grafo));
+        Vertice nuevo = new Vertice(valorVertice);
+        return nuevo;
     }
 
     public static int decidir(){
@@ -58,7 +57,7 @@ public class Principal {           // Falta el Recorrido y ya queda
         return eleccion;
     }
 
-    public static boolean multiploDeSeis(int numero) {
+    public static boolean multiploDeSeis(int numero, Grafo grafo) {
         return numero % 6 == 0;
     }
 }

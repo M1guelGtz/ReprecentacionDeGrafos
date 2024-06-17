@@ -11,11 +11,19 @@ public class Grafo {
     }
 
     public void agregarNodo(Vertice verticeNuevo) {
-        if (!existeVertice(verticeNuevo)) {
-            listaVertices.add(verticeNuevo);
-        } else {
-            System.out.println("El vértice ya existe en el grafo.");
+        int valor=0;
+        for (Vertice verticeComp : listaVertices) {
+            if (verticeComp.getDato()==verticeNuevo.getDato()) {
+                do{
+                    System.out.println("El vértice ya existe en el grafo.");
+                    System.out.print("vuelva a introducir su eleccion:");
+                    valor=decidir();
+                    verticeNuevo.setDato(valor);
+                }while(verticeComp.getDato()==verticeNuevo.getDato());
+            }
         }
+        listaVertices.add(verticeNuevo);
+        System.out.println("Vertice Guardado");
     }
 
     public List<Vertice> getListaVertices() {
@@ -73,14 +81,6 @@ public class Grafo {
         } while (opcion == 1);
     }
 
-    public boolean existeVertice(Vertice vertice) {
-        for (Vertice v : listaVertices) {
-            if (v.equals(vertice)) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     public boolean existeArista(Arista arista) {
         for (Vertice v : listaVertices) {
