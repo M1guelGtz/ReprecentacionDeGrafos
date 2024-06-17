@@ -1,4 +1,12 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.Stack;
 public class Grafo {
     private List<Vertice> listaVertices;
 
@@ -14,6 +22,11 @@ public class Grafo {
                     System.out.println("El vértice ya existe en el grafo.");
                     System.out.print("vuelva a introducir su eleccion:");
                     valor=decidir();
+                    while (valor % 6 != 0) {
+                        System.out.println("el valor no es multiplo de 6");
+                        System.out.print("vuelva a introducir su eleccion:");
+                        valor=decidir();
+                    }
                     verticeNuevo.setDato(valor);
                 }while(verticeComp.getDato()==verticeNuevo.getDato());
             }
