@@ -12,6 +12,9 @@ public class Principal {
             grafo.agregarNodo(crearVertice(grafo));
         }
         grafo.agregarAristas();
+        
+        grafo.recorridoEnAnchura();
+        grafo.recorrerGrafo(grafo.getListaVertices().get(0).getDato());
         System.out.println(grafo);
     }
     public static Vertice crearVertice(Grafo grafo) {

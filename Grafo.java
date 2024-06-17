@@ -1,8 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.Set;
+import java.util.Stack;
+import java.util.Queue;
 public class Grafo {
     private List<Vertice> listaVertices;
 
@@ -23,7 +27,7 @@ public class Grafo {
             }
         }
         listaVertices.add(verticeNuevo);
-        System.out.println("Vertice Guardado");
+        System.out.println("--------------Vertice Guardado-------------------");
     }
 
     public List<Vertice> getListaVertices() {
@@ -36,7 +40,7 @@ public class Grafo {
         Scanner entrada = new Scanner(System.in);
         do {
             for (int i = 0; i < listaVertices.size(); i++) {
-                System.out.println(i + 1 + ") " + listaVertices.get(i).getDato());
+                System.out.println("\t" + (i + 1)  + ") " + listaVertices.get(i).getDato());
             }
             do {
                 if (count != 0) {
@@ -98,6 +102,7 @@ public class Grafo {
 
     @Override
     public String toString (){
+        System.out.println("");
         return " GRAFO [ " + getListaVertices() + "\n ]";
     }
 
@@ -120,5 +125,69 @@ public class Grafo {
         Scanner entrada = new Scanner(System.in);
         int eleccion = entrada.nextInt();
         return eleccion;
+    }
+
+    public void recorrerGrafo(int datoVerticeInicial) {
+        Stack<Vertice> pila = new Stack<>();
+        Set<Vertice> visitados = new HashSet<>();
+        Vertice verticeInicial = buscarVertice(datoVerticeInicial);
+        pila.push(verticeInicial);
+        while (!pila.isEmpty()) {
+            Vertice vertice = pila.pop();
+            if (!visitados.contains(vertice)) {
+                visitados.add(vertice);
+                List<Arista> adyacentes = vertice.getListaAristas();
+                if (adyacentes != null) {
+                    for (Arista arista : adyacentes) {
+                        Vertice adyacente = arista.getFin();
+                        if (!visitados.contains(adyacente)) {
+                            pila.push(adyacente);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("\nRecorrido del grafo en profundidad: ");
+        for (Vertice vertice : visitados) {
+            System.out.print(vertice.getDato() + " ");
+        }
+        System.out.println();
+    }
+    private Vertice buscarVertice(int dato) {
+        for (Vertice vertice : listaVertices) {
+            if (vertice.getDato()==dato) {
+                return vertice;
+            }
+        }
+        return null;
+    }
+    public void recorridoEnAnchura() {
+        if (listaVertices == null || listaVertices.isEmpty()) {
+            System.out.println("El grafo está vacío. No se puede realizar el recorrido en anchura.");
+            return;
+        }
+        System.out.println("\nRecorrido del grafo en anchura: ");
+        List<Vertice> visitados = new ArrayList<>();
+        Queue<Vertice> cola = new LinkedList<>();
+        
+        
+        cola.add(listaVertices.get(0));
+        visitados.add(listaVertices.get(0));
+        
+        while (!cola.isEmpty()) {
+            Vertice vertice = cola.poll();
+            System.out.print(vertice.getDato() + " ");
+            
+            if (vertice.getListaAristas() != null) {
+                for (Arista arista : vertice.getListaAristas()) {
+                    Vertice adyacente = arista.getFin();
+                    if (!visitados.contains(adyacente)) {
+                        visitados.add(adyacente);
+                        cola.add(adyacente);
+                    }
+                }
+            }
+        }
+        System.out.println();
     }
 }
